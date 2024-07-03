@@ -5,7 +5,21 @@ import csv
 from time import sleep
 import random
 
-def send_mail_attachment(mail):
+html_msg = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opinie</title>
+</head>
+<body>
+    <h1>Mail in HTML</h1>
+</body>
+</html>
+"""
+
+def send_mail_attachment(mail,html_msg):
 
             toaddr = mail
             user = 'mail@example.com'
@@ -21,28 +35,13 @@ def send_mail_attachment(mail):
 
             msg.set_type('text/html')
             msg.set_content("This is the Data Message that we want to send")
-            html_msg = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Opinie</title>
-</head>
-<body>
-    <h1>Mail in HTML</h1>
-</body>
-</html>
-            """
             msg.add_alternative(html_msg, subtype="html")
-
 
             context = ssl.create_default_context()
             with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
                 server.login(user, passw)
                 server.send_message(msg)
             
-
             print("Mail sent to : " + toaddr)
 
 filename = "consumers.csv"
